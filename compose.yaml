@@ -1,0 +1,16 @@
+services:
+  ics-proxy:
+    container_name: ics-proxy
+    build:
+      context: ./ics-proxy
+      args:
+        UID: '${UID:-1000}'
+        GID: '${GID:-1000}'
+    userns_mode: keep-id
+    ports:
+      - "6120:3000"
+    environment:
+      TZ_NAME: 'America/Los_Angeles'
+    volumes:
+      - ./ics-proxy:/app
+    restart: unless-stopped

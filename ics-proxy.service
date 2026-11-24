@@ -1,0 +1,34 @@
+[Unit]
+Description=ICS Timezone Proxy
+After=network.target
+StartLimitBurst=10
+
+[Service]
+User=user
+Group=user
+WorkingDirectory=%h/Documents/services/ics-proxy
+Environment="TZ_NAME=America/Los_Angeles"
+ExecStart=%h/.local/bin/uv run gunicorn --bind localhost:8001 --workers 2 ics-proxy:app
+Restart=always
+RestartSec=5
+# Security.
+PrivateTmp=yes
+PrivateUsers=yes
+MountFlags=slave
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+LockPersonality=yes
+RestrictSUIDSGID=yes
+PrivateUsers=yes
+PrivateDevices=yes
+ProtectClock=yes
+ProtectKernelLogs=yes
+ProtectKernelLogs=yes
+ProtectProc=noaccess
+RemoveIPC=yes
+KeyringMode=private
+
+[Install]
+WantedBy=multi-user.target
